@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
+
 def custom_page_not_found(request, exception):
     return render(request, '404.html', status=404)
 
@@ -110,6 +111,28 @@ def editar(request, id):
         return redirect('/listar/')
     else:
         return render(request, 'editar_produto.html', {'produto': produto})
+
+@require_http_methods(["GET", "POST"])
+@login_required
+def redefinir_senha(request):
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+
+        if new_password != new_password2:
+            return redirect('/redefinir_senha/?cd_error=30')
+        elif request.user.check_password(new_password):
+            return redirect('/redefinir_senha/?cd_error=40')
+        else:
+            request.user.set_password(new_password)
+            request.user.save()
+            return redirect('/?code_success=100')
+
+    cd_error = request.GET.get('cd_error')
+    return render(request, 'redefinir_senha.html', {'cd_error': cd_error})
+
+
+
     
 
         

@@ -68,6 +68,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
           {% endif %}
+          {% if code_success == '100' %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Sucesso!</strong> Reaize login com sua senha.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endif %}
           <form action="{% url 'realizar_login' %}" method="POST">{% csrf_token %}
             <div class="form-group mb-3">
               <label for="exampleInputEmail1">Endereço de email</label>
