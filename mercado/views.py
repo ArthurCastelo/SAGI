@@ -83,8 +83,12 @@ def cadastrar(request):
 def listar_produtos(request):
     code_success = request.GET.get('code_success')
 
+    #para pegar qual id é o do usuário
+    Users = User.objects.all()
     todos_produtos = Produtos.objects.all()
-    return render(request,'listar_produtos.html',{'todos_produtos':todos_produtos,'code_success':code_success})
+    usuario_atual = request.user  # Usuário atual logado
+    return render(request,'listar_produtos.html',{'todos_produtos':todos_produtos, 'code_success':code_success, 'usuarios':Users, 'usuario_atual':usuario_atual})
+
 
 def pesquisar(request):
     nome_filtrar = request.GET.get('nome_filtrar')
@@ -130,6 +134,14 @@ def redefinir_senha(request):
 
     cd_error = request.GET.get('cd_error')
     return render(request, 'redefinir_senha.html', {'cd_error': cd_error})
+
+@login_required
+def deletar_conta(request, id):
+    id_user = get_object_or_404(User, id=id)
+    id_user.delete()
+    return render(request,'conta_excluida.html')
+
+
 
 
 
