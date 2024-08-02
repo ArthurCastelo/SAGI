@@ -40,6 +40,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#CONFIGURAÇÃP DO SERVIDOR SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "###" #SEU EMAIL
+EMAIL_HOST_PASSWORD = "###" #A SENHA DO EMAIL
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [

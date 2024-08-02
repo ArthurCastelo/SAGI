@@ -66,7 +66,7 @@
           </a>
           <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{% url 'redefinir_senha' %}">Esqueceu a senha?</a>
+              <a class="collapse-item" href="{% url 'redefinir_senha' user_id %}">Esqueceu a senha?</a>
             </div>
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{% url 'deletar_conta' usuario_atual.id %}">Deletar Conta  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-person-x" viewBox="0 0 16 16">

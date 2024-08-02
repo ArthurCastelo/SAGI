@@ -5,6 +5,8 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.http import HttpResponse
 
 
 def custom_page_not_found(request, exception):
@@ -84,10 +86,40 @@ def listar_produtos(request):
     code_success = request.GET.get('code_success')
 
     #para pegar qual id é o do usuário
-    Users = User.objects.all()
+    user_id = request.user.id
     todos_produtos = Produtos.objects.all()
     usuario_atual = request.user  # Usuário atual logado
-    return render(request,'listar_produtos.html',{'todos_produtos':todos_produtos, 'code_success':code_success, 'usuarios':Users, 'usuario_atual':usuario_atual})
+    return render(request,'listar_produtos.html',{'todos_produtos':todos_produtos, 'code_success':code_success, 'user_id':user_id, 'usuario_atual':usuario_atual})
+
+def confirmar_email(request):
+   return render(request,'reset_password.html')
+
+def enviar_email(request):
+    if request.method == 'POST':
+        assunto = 'Redefinir Senha - SAGI'
+        remetente = 'fusion.iom@hotmail.com'
+        destinatario = request.POST.get('email_redefinir')
+
+        try:
+            usuario = User.objects.get(email=destinatario)
+            mensagem = f'Olá, acesse o link para redefinir a sua senha: http://127.0.0.1:8000/redefinir_senha/{usuario.id}'
+            
+            send_mail(
+                assunto,
+                mensagem,
+                remetente,
+                [destinatario],  
+                fail_silently=False,
+            )
+            
+            return redirect('/reset_password/?code_success=500')
+        except User.DoesNotExist:
+            return render(request, 'reset_password.html', {'error': 'Email não encontrado'})
+
+    code_success = request.GET.get('code_success')
+    error = request.GET.get('error')
+    return render(request, 'reset_password.html', {'code_success': code_success, 'error': error})
+   
 
 
 def pesquisar(request):
@@ -117,23 +149,24 @@ def editar(request, id):
         return render(request, 'editar_produto.html', {'produto': produto})
 
 @require_http_methods(["GET", "POST"])
-@login_required
-def redefinir_senha(request):
+def redefinir_senha(request, user_id=None):
+    user = get_object_or_404(User, pk=user_id) if user_id else request.user
+    
     if request.method == 'POST':
         new_password = request.POST.get('new_password1')
         new_password2 = request.POST.get('new_password2')
 
         if new_password != new_password2:
-            return redirect('/redefinir_senha/?cd_error=30')
-        elif request.user.check_password(new_password):
-            return redirect('/redefinir_senha/?cd_error=40')
+            return redirect(f'/redefinir_senha/{user.id}/?cd_error=30')
+        elif user.check_password(new_password):
+            return redirect(f'/redefinir_senha/{user.id}/?cd_error=40')
         else:
-            request.user.set_password(new_password)
-            request.user.save()
+            user.set_password(new_password)
+            user.save()
             return redirect('/?code_success=100')
 
     cd_error = request.GET.get('cd_error')
-    return render(request, 'redefinir_senha.html', {'cd_error': cd_error})
+    return render(request, 'redefinir_senha.html', {'cd_error': cd_error, 'user_id': user.id})
 
 @login_required
 def deletar_conta(request, id):

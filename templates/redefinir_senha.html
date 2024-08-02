@@ -45,7 +45,7 @@
             </div>
         {% endif %}
         <h3 class="text-center">Redefinir Senha</h3>
-        <form action="{% url 'redefinir_senha' %}" method="POST">{% csrf_token %}
+        <form method="POST" action="{% url 'redefinir_senha' user_id %}">{% csrf_token %}
             <div class="form-group">
                 <label for="new-password"><i class="fas fa-lock"></i> Nova senha</label>
                 <input type="password" class="form-control" id="new-password" name="new_password1" placeholder="Nova senha">

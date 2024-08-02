@@ -1,3 +1,5 @@
+Aqui está uma versão melhorada do seu README, incluindo a nota sobre a configuração do backend de e-mail:
+
 ```markdown
 # Lista de Produtos
 
@@ -10,6 +12,7 @@ Sistema web para gerenciar produtos com CRUD completo, utilizando Python e o fra
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação](#instalação)
 - [Uso](#uso)
+- [Configuração do E-mail](#configuração-do-e-mail)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 - [Contato](#contato)
@@ -78,6 +81,26 @@ Além disto, é bom ter um editor para trabalhar com o código como [VSCode](htt
    - Atualize informações de produtos existentes
    - Exclua produtos
 
+## Configuração do E-mail
+
+Para que a funcionalidade de redefinição de senha funcione corretamente, é necessário configurar o backend de e-mail no arquivo `settings.py` do seu projeto Django. Por padrão, o Django usa o backend de e-mail em memória, que não envia e-mails reais.
+
+Para configurar o envio de e-mails, você pode usar um serviço de e-mail real. Aqui está um exemplo de configuração para usar o Gmail como backend de e-mail:
+
+```python
+# settings.py
+
+# Configurações do backend de e-mail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'seu-email@gmail.com'
+EMAIL_HOST_PASSWORD = 'sua-senha'
+```
+
+Certifique-se de substituir `'seu-email@gmail.com'` e `'sua-senha'` pelos detalhes da sua conta de e-mail. Se você usar um serviço diferente, consulte a documentação do serviço para obter as configurações corretas.
+
 ## Contribuição
 
 Contribuições são sempre bem-vindas! Se você tiver sugestões de melhorias, sinta-se à vontade para criar issues e pull requests.
@@ -99,3 +122,4 @@ Arthur Castelo - [arthurcastelo1205@gmail.com](mailto:arthurcastelo1205@gmail.co
 GitHub: [ArthurCastelo](https://github.com/ArthurCastelo)
 ```
 
+Essa seção sobre a configuração do e-mail vai ajudar a garantir que os usuários do projeto possam configurar corretamente o envio de e-mails para funcionalidades como a redefinição de senha.
