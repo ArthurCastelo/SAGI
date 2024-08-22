@@ -1,4 +1,4 @@
-Aqui está uma versão melhorada do seu README, incluindo a nota sobre a configuração do backend de e-mail:
+
 
 ```markdown
 # Lista de Produtos
