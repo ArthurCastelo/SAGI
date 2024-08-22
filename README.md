@@ -122,4 +122,3 @@ Arthur Castelo - [arthurcastelo1205@gmail.com](mailto:arthurcastelo1205@gmail.co
 GitHub: [ArthurCastelo](https://github.com/ArthurCastelo)
 ```
 
-Essa seção sobre a configuração do e-mail vai ajudar a garantir que os usuários do projeto possam configurar corretamente o envio de e-mails para funcionalidades como a redefinição de senha.
